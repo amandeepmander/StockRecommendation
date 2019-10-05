@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+{% include "navbar.html" %}
+<section class="hero is-primary is-bold is-large">
+  <div class="hero-body">
+
+    <div class="ml-container">
+
+		<form action="{{ url_for('predict')}}" method="POST">
+            <p>Enter Ticker (use AAPL as example)</p>
+            <!-- <input type="text" name="comment"/> -->
+            <textarea name="ticker" rows="4" cols="50"></textarea>
+            <br/>
+
+            <input type="submit" class="btn-info" value="predict">
+	    </form>
+		
+	</div>
+  </div>
+  
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="../static/js/scripts.js"></script>
+{% endblock %}

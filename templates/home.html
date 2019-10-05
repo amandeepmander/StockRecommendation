@@ -2,7 +2,41 @@
 {% block body %}
 {% include "navbar.html" %}
 <section class="hero is-primary is-bold is-large">
-  <div class="hero-body"></div>
+  <div class="hero-body">
+    <div>
+      <h2>Please pay $5.00 to use the service</h2>
+      <form action="/charge" method="post">
+        <script
+          src="https://checkout.stripe.com/checkout.js"
+          class="stripe-button"
+          data-key="{{ key }}"
+          data-description="A Flask Charge"
+          data-amount="500"
+          data-locale="auto">
+        </script>
+      </form>
+      <div>
+        <h3>
+          For testing purposes, please use the following information:
+        </h3>
+        <ul>
+          <li>
+            Email: anything@anything.com
+          </li>
+          <li>
+            Credit Card Number: 4242424242424242
+          </li>
+          <li>
+            Expiry Date: 01/20
+          </li>
+          <li>
+            CVC: 000
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
 </section>
 {% endblock %}
 {% block scripts %}
