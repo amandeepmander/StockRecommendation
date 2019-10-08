@@ -28,7 +28,7 @@ stripe_keys = {
 stripe.api_key = stripe_keys['secret_key']
 
 # Alpha Vantage API key
-api_key = 'A3Y10PJZ4M4FYKSW'
+api_key = os.environ['AlphaVantageKey']
 
 # Model files
 model_AAPL = 'RFmodel_AAPL.sav'
