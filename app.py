@@ -12,14 +12,11 @@ import stripe
 import numpy as np
 import pandas as pd
 import pickle
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.externals import joblib
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import classification_report
+
+import joblib
 import urllib.request
 import datetime as dt
-import tensorflow as tf
+from sklearn.ensemble import RandomForestRegressor
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)  # Generic key for dev purposes only
@@ -34,7 +31,7 @@ stripe.api_key = stripe_keys['secret_key']
 api_key = 'A3Y10PJZ4M4FYKSW'
 
 # Model files
-model_AAPL = 'AAPL_model.sav'
+model_AAPL = 'RFmodel_AAPL.sav'
 
 # Heroku
 #from flask_heroku import Heroku
@@ -156,22 +153,19 @@ def predict():
         # Reverse the dataframe to get data in chronological order
         df_final_pred = df_final_pred.iloc[::-1]
 
-        # fix random seed for reproducibility
-        np.random.seed(7)
-
         # load the dataset
         dataframe_pred = df_final_pred['AdjClose']
         dataset_pred = dataframe_pred.values
         dataset_pred = dataset_pred.astype('float32')
         dataset_pred = dataset_pred.reshape(1, -1)
 
+
         # load the model from disk
         loaded_model = joblib.load(model_AAPL)
 
         
         # Make prediction
-        pred_data = np.reshape(dataset_pred, (dataset_pred.shape[0], 1, dataset_pred.shape[1]))
-        my_prediction = loaded_model.predict(pred_data)
+        my_prediction = loaded_model.predict(dataset_pred)
         if my_prediction < df_final_pred['AdjClose'].iloc[-1]:
             reco = "Sell"
         else:
